@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const fileUpload = require('express-fileUpload')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
@@ -10,7 +9,6 @@ const port = process.env.PORT || 5005;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(fileUpload());
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
