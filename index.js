@@ -3,9 +3,10 @@ const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 
-const port = process.env.PORT || 5005;
+const port = 5005;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +21,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-    console.log('errors', err)
+    console.log('errors', err);
     const serviceCollection = client.db("riverr-rent").collection("services");
     const reviewCollection = client.db("riverr-rent").collection("reviews");
     const bookingsCollection = client.db("riverr-rent").collection("bookings");
@@ -75,10 +76,10 @@ client.connect(err => {
     app.post("/dashboard/bookings", (req, res) => {
         const booking = req.body;
         bookingsCollection.insertOne(booking)
-        .then(result => {
-            console.log('insert', result.insertedCount)
-            res.send(result.insertedCount > 0)
-        })
+            .then(result => {
+                console.log('insert', result.insertedCount)
+                res.send(result.insertedCount > 0)
+            })
     })
 
     // get (bookings) data from server
@@ -102,6 +103,4 @@ client.connect(err => {
 
 
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(process.env.PORT || port)
